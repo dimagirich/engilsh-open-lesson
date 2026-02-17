@@ -6,111 +6,245 @@
 
 <style>
 body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#edf1f6;
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#edf1f6;
 }
 
 header{
-background:#2456d8;
-color:white;
-padding:20px;
-text-align:center;
+  background:#2456d8;
+  color:white;
+  padding:20px;
+  text-align:center;
 }
 
 nav a{
-color:white;
-margin:0 15px;
-text-decoration:none;
-font-weight:bold;
+  color:white;
+  margin:0 15px;
+  text-decoration:none;
+  font-weight:bold;
 }
 
 .lang-btn{
-margin-top:10px;
-padding:6px 15px;
-border:none;
-border-radius:6px;
-cursor:pointer;
+  margin-top:10px;
+  padding:6px 15px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
 }
 
-.lesson-top,.lesson-bottom,.participants-gallery,.book-info,.author-info{
-background:white;
-margin:20px auto;
-padding:20px;
-border-radius:12px;
-width:80%;
-max-width:900px;
-position:relative;
+.lesson-top, .lesson-bottom{
+  background:white;
+  margin:20px auto;
+  padding:20px;
+  border-radius:12px;
+  width:80%;
+  max-width:900px;
+  position:relative;
+  overflow:hidden;
 }
 
+/* ===== BACKGROUND IMAGES FOR SECTIONS ===== */
+.lesson-top::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:url('gallery/backgrounds/kozha.jpg') no-repeat center center;
+  background-size:cover;
+  opacity:0.2;
+  z-index:0;
+}
+
+.lesson-bottom::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:url('gallery/backgrounds/english.jpg') no-repeat center center;
+  background-size:cover;
+  opacity:0.15;
+  z-index:0;
+}
+
+.participants-gallery{
+  background:white;
+  margin:20px auto;
+  padding:20px;
+  border-radius:12px;
+  width:80%;
+  max-width:900px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.participants-gallery::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:url('gallery/backgrounds/film.jpg') no-repeat center center;
+  background-size:cover;
+  opacity:0.1;
+  z-index:0;
+}
+
+.lesson-top h2, .lesson-bottom h2, #gallery h2, .participants-gallery h2{
+  color:#2456d8;
+  position:relative;
+  z-index:1;
+}
+
+.lesson-top p, .lesson-bottom p, #gallery p, .participants-gallery p{
+  position:relative;
+  z-index:1;
+}
+
+/* ===== CAROUSEL + SCROLL ===== */
 .carousel-container{
-overflow-x:auto;
-margin:20px auto;
-width:80%;
-max-width:900px;
+  position:relative;
+  overflow-x:auto;
+  overflow-y:hidden;
+  margin:20px auto;
+  width:80%;
+  max-width:900px;
+  scrollbar-width:thin;
+}
+
+.carousel-container::-webkit-scrollbar{
+  height:8px;
+}
+
+.carousel-container::-webkit-scrollbar-thumb{
+  background:#2456d8;
+  border-radius:10px;
+}
+
+.carousel-container::-webkit-scrollbar-track{
+  background:#ccc;
 }
 
 .carousel-track{
-display:flex;
-min-width:max-content;
+  display:flex;
+  transition:.5s ease;
+  min-width:max-content;
 }
 
 .carousel-track img,.carousel-track video{
-width:150px;
-height:100px;
-margin:5px;
-border-radius:10px;
-cursor:pointer;
-object-fit:cover;
-transition:.3s;
+  width:150px;
+  height:100px;
+  margin:5px;
+  border-radius:10px;
+  cursor:pointer;
+  object-fit:cover;
+  transition:.3s;
 }
 
 .carousel-track img:hover,
 .carousel-track video:hover{
-transform:scale(1.2);
+  transform:scale(1.2);
 }
 
+/* ===== FIXED BUTTONS OVER CAROUSEL ===== */
+.carousel-btn{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:rgba(36,86,216,.8);
+  border:none;
+  color:white;
+  padding:10px;
+  cursor:pointer;
+  font-size:20px;
+  border-radius:5px;
+  z-index:10;
+}
+
+.left{left:5px;}
+.right{right:5px;}
+
 .modal{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.8);
-justify-content:center;
-align-items:center;
-z-index:999;
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.8);
+  justify-content:center;
+  align-items:center;
+  z-index:999;
 }
 
 .modal.active{display:flex;}
 
-.modal img,.modal video{
-max-width:80%;
-max-height:80%;
-border-radius:10px;
+.modal img, .modal video{
+  max-width:80%;
+  max-height:80%;
+  border-radius:10px;
 }
 
+/* ===== PARTICIPANTS GALLERY ===== */
 .participants-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:20px;
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:20px;
+  position:relative;
+  z-index:1;
 }
 
-.participant{text-align:center}
+.participant{
+  text-align:center;
+  transition: transform 0.3s;
+  cursor:pointer;
+  position:relative;
+  z-index:1;
+}
 
 .participant img{
-width:120px;
-height:120px;
-border-radius:50%;
-object-fit:cover;
-transition:.3s;
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  object-fit:cover;
+  transition: transform 0.3s;
 }
 
-.participant img:hover{transform:scale(1.2)}
+.participant:hover img{
+  transform:scale(1.2);
+}
 
 footer{
-background:#222;
-color:white;
-text-align:center;
-padding:15px;
+  background:#222;
+  color:white;
+  text-align:center;
+  padding:15px;
+}
+
+/* ===== BOOK & AUTHOR SECTIONS WITH BACKGROUND ===== */
+.book-info, .author-info{
+  position:relative;
+  overflow:hidden;
+  margin:20px auto;
+}
+
+.book-info::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:url('gallery/backgrounds/book.jpg') no-repeat center center;
+  background-size:cover;
+  opacity:0.15;
+  z-index:0;
+}
+
+.author-info::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:url('gallery/backgrounds/author.jpg') no-repeat center center;
+  background-size:cover;
+  opacity:0.15;
+  z-index:0;
+}
+
+.book-info div, .author-info div{
+  position:relative;
+  z-index:1;
 }
 </style>
 </head>
@@ -122,35 +256,39 @@ padding:15px;
 
 <nav>
 <a href="#gallery">gallery</a>
-<a href="#lesson-bottom">information</a>
+<a href="#lesson-bottom">Information</a>
 </nav>
 
 <button class="lang-btn" onclick="switchLang()">RU / EN</button>
 </header>
 
 <section class="lesson-top">
-<h2 id="topTitle">Information of lesson</h2>
+<h2 id="topTitle">Information of lesson behind class</h2>
+
 <p><b>Date:</b> 05.02.2026</p>
 <p><b>Class:</b> 7"Zh"</p>
 <p><b>Creator:</b> Dmitry Girich</p>
-<p id="desc">The lesson was conducted to show Менің атым Қожа in modern format</p>
+
+<p id="desc">The lesson behind the class was conducted with the aim of showing Менің атым Қожа in modern times</p>
 </section>
 
 <section id="gallery">
 <h2 id="galleryTitle" style="text-align:center;">gallery of lesson</h2>
 
 <div class="carousel-container">
-<div class="carousel-track">
-<img src="gallery/photos/photo1.jpeg">
-<img src="gallery/photos/photo2.jpeg">
-<img src="gallery/photos/photo3.jpeg">
-<video src="gallery/videos/Film.mp4" controls></video>
-<img src="gallery/photos/photo4.jpeg">
-<img src="gallery/photos/photo5.jpeg">
-<img src="gallery/photos/photo6.jfif">
-<img src="gallery/photos/photo7.jfif">
-<img src="gallery/photos/photo8.jfif">
-</div>
+  
+  <div class="carousel-track" id="track">
+    <img src="gallery/photos/photo1.jpeg">
+    <img src="gallery/photos/photo2.jpeg">
+    <img src="gallery/photos/photo3.jpeg">
+    <video src="gallery/videos/Film.mp4" controls></video>
+    <img src="gallery/photos/photo4.jpeg">
+    <img src="gallery/photos/photo5.jpeg">
+    <img src="gallery/photos/photo6.jfif">
+    <img src="gallery/photos/photo7.jfif">
+    <img src="gallery/photos/photo8.jfif">
+  </div>
+  
 </div>
 </section>
 
@@ -158,73 +296,117 @@ padding:15px;
 
 <section class="lesson-bottom" id="lesson-bottom">
 <h2 id="bottomTitle">Information</h2>
+
 <p id="topic"><b>Topic:</b> Менің атым Қожа</p>
-<p id="planText">We showed flash mob, movie, presentation and asked questions.</p>
+<p id="planText">We showed a flash mob, an excerpt from our film, a presentation, a lesson, and asked questions about the lesson and the excerpt from the film.</p>
 </section>
 
 <section class="participants-gallery">
 <h2>film participants</h2>
 <div class="participants-grid">
-
-<div class="participant"><img src="gallery/photos/Adiat.jpeg"><p>Әбікей Адият</p></div>
-<div class="participant"><img src="gallery/photos/Muslim.jpeg"><p>Муслим Алибаев</p></div>
-<div class="participant"><img src="gallery/photos/Amila.jpeg"><p>Амиля</p></div>
-<div class="participant"><img src="gallery/photos/Danial.jpeg"><p>Даниал</p></div>
-<div class="participant"><img src="gallery/photos/Ailana.jpeg"><p>Айлана</p></div>
-<div class="participant"><img src="gallery/photos/Dima.jpeg"><p>Дмитрий Гирич</p></div>
-<div class="participant"><img src="gallery/photos/Amir.jpeg"><p>Амир</p></div>
-<div class="participant"><img src="gallery/photos/Tamerlan.jpeg"><p>Тамерлан</p></div>
-
+  <div class="participant">
+    <img src="gallery/photos/Adiat.jpeg" alt="Әбікей Адият">
+    <p>Әбікей Адият <br> (роль: Жантас)</p>
+    <p>7"Zh"</p>
+  </div>
+  <div class="participant">
+    <img src="gallery/photos/Muslim.jpeg" alt="Муслим Алибаев">
+    <p>Муслим Алибаев <br>(роль: Кожа)</p>
+    <p>7"Zh"</p>
+  </div>
+  <div class="participant">
+    <img src="gallery/photos/Amila.jpeg" alt="Амиля">
+    <p>Амангелдi Амиля <br>(роль: Учитель)</p>
+    <p>7"Zh"</p>
+  </div>
+  <div class="participant">
+    <img src="gallery/photos/Danial.jpeg" alt="Даниал">
+    <p>Исмухамбетов Даниал <br>(роль: Бабушка Кожи, однокласник)</p>
+    <p>7"Zh"</p>
+  </div>
+  <div class="participant">
+    <img src="gallery/photos/Ailana.jpeg" alt="Айлана">
+    <p>Асланқызы Айлана <br>(роль: Мама Кожи, однокласница)</p>
+    <p>7"Zh"</p>
+  </div>
+  <div class="participant">
+    <img src="gallery/photos/Dima.jpeg" alt="Я">
+    <p>Дмитрий Гирич <br>(роль: Султан, Создатель сайта)</p>
+    <p>7"Zh"</p>
+  </div>
+  <div class="participant">
+    <img src="gallery/photos/Amir.jpeg" alt="Амир">
+    <p>Амир Газдиев <br>(роль: Сайкен)</p>
+    <p>7"Zh"</p>
+  </div>
+  <div class="participant">
+    <img src="gallery/photos/Tamerlan.jpeg" alt="Тамерлан">
+    <p>Жумашев Тамерлан <br>(роль:однокласник)</p>
+    <p>7"Zh"</p>
+  </div>
 </div>
 </section>
 
 <section class="book-info">
-<h2 style="color:#2456d8;text-align:center;">О книге</h2>
-<p><b>Менің атым Қожа</b> — повесть о школьнике Коже. Произведение рассказывает о его поступках, дружбе, ошибках и взрослении. Книга учит ответственности, честности и уважению.</p>
-<p>Произведение входит в школьную программу Казахстана.</p>
-<p style="text-align:right;font-style:italic;">Информация взята с wikipedia.com</p>
+  <h2 style="color:#2456d8; text-align:center;">Менің Атым Қожа</h2>
+  <div style="background:white; padding:15px; border-radius:10px; width:80%; max-width:850px; margin:10px auto; font-size:0.95em; line-height:1.5; position:relative; overflow:hidden;">
+    <p><b>Менің Атым Қожа</b> — это известная детская книга казахского писателя Габита Мусрепова. Главный герой — школьник Кожа, который попадает в различные забавные и поучительные ситуации. Книга рассказывает о школьной жизни, дружбе, приключениях и нравственных ценностях.</p>
+    <p>Произведение пользуется популярностью среди детей и подростков и входит в учебные программы казахстанских школ. Сюжет книги полон юмора и одновременно содержит уроки о честности, дружбе и уважении к окружающим.</p>
+    <p>Книга была впервые опубликована в середине XX века и с тех пор стала классикой казахской детской литературы.</p>
+    <p style="text-align:right; font-style:italic; font-size:0.85em;">Информация взята с wikipedia.com</p>
+  </div>
 </section>
 
 <section class="author-info">
-<h2 style="color:#2456d8;text-align:center;">Бердібек Соқпақбаев</h2>
-
-<p><b>Бердібек Соқпақбаев</b> (1924–1991) — казахский писатель, автор детских и подростковых произведений.</p>
-
-<p>С ранних лет интересовался литературой. Работал учителем, журналистом и редактором. Его книги отличаются живыми персонажами и простым языком.</p>
-
-<p>Самое известное произведение — «Менің атым Қожа». Повесть стала классикой детской литературы и была экранизирована.</p>
-
-<p>Творчество Соқпақбаева оказало большое влияние на казахскую литературу.</p>
-
-<p style="text-align:right;font-style:italic;">Информация взята с wikipedia.com</p>
+  <h2 style="color:#2456d8; text-align:center;">Габит Мусрепов</h2>
+  <div style="background:white; padding:20px; border-radius:12px; width:80%; max-width:850px; margin:20px auto; font-size:1em; line-height:1.6; position:relative; overflow:hidden;">
+    <p><b>Габит Мусрепов</b> (1902–1985) — выдающийся казахский писатель, драматург, общественный деятель и один из основателей современной казахской литературы. Он известен своими произведениями для детей и взрослых, в которых ярко отражены традиции, культура и нравственные ценности казахского народа.</p>
+    <p>Мусрепов родился в семье педагогов и с ранних лет проявлял интерес к литературе. В его творчестве сочетаются реализм и глубокая психологическая проработка героев. Одним из самых известных его произведений является <b>"Менің Атым Қожа"</b>, ставшее классикой казахской детской литературы и включённое в школьную программу.</p>
+    <p>Кроме детских произведений, Мусрепов писал пьесы, рассказы и статьи, активно участвовал в литературной жизни Казахстана и способствовал развитию национальной культуры. Его творчество оказало значительное влияние на последующие поколения писателей и читателей.</p>
+    <p>Габит Мусрепов также занимал различные общественные и педагогические должности, выступал за сохранение казахского языка и традиций, а его литературные труды получили широкое признание как в Казахстане, так и за его пределами.</p>
+    <p style="text-align:right; font-style:italic; font-size:0.85em;">Информация взята с wikipedia.com</p>
+  </div>
 </section>
 
 <footer id="footer">© 2026 School</footer>
 
 <script>
-const modal=document.getElementById("modal");
+const container = document.querySelector(".carousel-container");
+const modal = document.getElementById("modal");
 
-document.querySelectorAll("img,video").forEach(i=>{
-i.onclick=()=>{
-modal.innerHTML="";
-const c=i.cloneNode(true);
-modal.appendChild(c);
-modal.classList.add("active");
-};
+// ===== SCROLL GALLERY =====
+function scrollGallery(x){
+  container.scrollBy({left:x, behavior:"smooth"});
+}
+
+// ===== OPEN MODAL FOR ANY IMAGE OR VIDEO =====
+function openModal(element){
+  modal.innerHTML = "";
+  const clone = element.cloneNode(true);
+  clone.style.maxWidth = "90%";
+  clone.style.maxHeight = "90%";
+  modal.appendChild(clone);
+  modal.classList.add("active");
+}
+
+// ===== CAROUSEL CLICK =====
+document.querySelectorAll(".carousel-track img, .carousel-track video").forEach(item=>{
+  item.addEventListener("click", ()=>openModal(item));
 });
 
-modal.onclick=()=>modal.classList.remove("active");
+// ===== PARTICIPANTS CLICK =====
+document.querySelectorAll(".participant img").forEach(item=>{
+  item.addEventListener("click", ()=>openModal(item));
+});
 
-let ru=false;
+// ===== CLOSE MODAL =====
+modal.addEventListener("click", ()=>{
+  modal.classList.remove("active");
+  modal.innerHTML = "";
+});
+
+// ===== LANGUAGE SWITCH =====
+let ru = false;
 function switchLang(){
-ru=!ru;
-title.innerText=ru?"Меня зовут Кожа":"Менің атым Қожа";
-topTitle.innerText=ru?"Информация":"Information";
-galleryTitle.innerText=ru?"Галерея":"Gallery";
-bottomTitle.innerText=ru?"Информация":"Information";
-footer.innerText=ru?"© 2026 Школа":"© 2026 School";
-}
-</script>
-
-</body>
-</html>
+  if(!ru){
+    title.inn
