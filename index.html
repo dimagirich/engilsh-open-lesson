@@ -1,72 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Школьный сайт</title>
 
-.lesson-top,.lesson-bottom{
-background:white;
-margin:20px auto;
-padding:20px;
-border-radius:12px;
-width:80%;
-max-width:900px;
-position:relative;
-overflow:hidden;
+<style>
+body{margin:0;font-family:Arial;background:#edf1f6;}
+header{background:#2456d8;color:white;padding:20px;text-align:center;}
+nav a{color:white;margin:0 15px;text-decoration:none;font-weight:bold;}
+.lang-btn{margin-top:10px;padding:6px 15px;border:none;border-radius:6px;cursor:pointer;}
+
+.lesson-top,.lesson-bottom,.participants-gallery{
+background:white;margin:20px auto;padding:20px;border-radius:12px;width:80%;max-width:900px;
 }
 
-.carousel-container{
-position:relative;
-overflow-x:auto;
-margin:20px auto;
-width:80%;
-max-width:900px;
-}
-
-.carousel-track{
-display:flex;
-min-width:max-content;
-}
-
+.carousel-container{position:relative;overflow-x:auto;margin:20px auto;width:80%;max-width:900px;}
+.carousel-track{display:flex;min-width:max-content;}
 .carousel-track img,.carousel-track video{
-width:150px;
-height:100px;
-margin:5px;
-border-radius:10px;
-object-fit:cover;
-cursor:pointer;
-transition:.3s;
+width:150px;height:100px;margin:5px;border-radius:10px;cursor:pointer;object-fit:cover;transition:.3s;
 }
-
-.carousel-track img:hover,.carousel-track video:hover{
-transform:scale(1.2);
-}
+.carousel-track img:hover,.carousel-track video:hover{transform:scale(1.2);}
 
 .carousel-btn{
-position:absolute;
-top:50%;
-transform:translateY(-50%);
-background:#2456d8;
-border:none;
-color:white;
-padding:10px;
-cursor:pointer;
+position:absolute;top:50%;transform:translateY(-50%);
+background:#2456d8;border:none;color:white;padding:10px;cursor:pointer;
 }
+.left{left:0}.right{right:0}
 
-.left{left:0}
-.right{right:0}
-
-.modal{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.8);
-justify-content:center;
-align-items:center;
-}
-
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);justify-content:center;align-items:center;}
 .modal.active{display:flex;}
+.modal img,.modal video{max-width:90%;max-height:90%;}
 
-.modal img,.modal video{
-max-width:90%;
-max-height:90%;
-}
+.participants-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+.participant img{width:120px;height:120px;border-radius:50%;object-fit:cover;}
 
+footer{background:#222;color:white;text-align:center;padding:15px;}
 </style>
 </head>
 
@@ -74,69 +42,97 @@ max-height:90%;
 
 <header>
 <h1 id="title">Менің атым Қожа</h1>
+
+<nav>
+<a href="#gallery">Gallery</a>
+<a href="#lesson-bottom">Info</a>
+</nav>
+
 <button class="lang-btn" onclick="switchLang()">RU / EN</button>
 </header>
 
+<section class="lesson-top">
+<h2 id="topTitle">Information of lesson</h2>
+<p><b>Date:</b> 05.02.2026</p>
+<p><b>Class:</b> 7"Zh"</p>
+<p><b>Creator:</b> Dmitry Girich</p>
+<p id="desc">Lesson about Менің атым Қожа</p>
+</section>
+
 <section id="gallery">
+<h2 id="galleryTitle" style="text-align:center;">Gallery</h2>
 
 <div class="carousel-container">
 <button class="carousel-btn left" onclick="scrollGallery(-200)">◀</button>
 
-<div class="carousel-track" id="track">
+<div class="carousel-track">
 <img src="gallery/photos/photo1.jpeg">
 <img src="gallery/photos/photo2.jpeg">
 <img src="gallery/photos/photo3.jpeg">
-
 <video src="gallery/videos/Film.mp4" controls></video>
-
 <img src="gallery/photos/photo4.jpeg">
-
 <img src="gallery/photos/photo5.jpeg">
-<img src="gallery/photos/photo6.jpeg">
 <img src="gallery/photos/photo7.jpeg">
 <img src="gallery/photos/photo8.jpeg">
-
-<img src="gallery/photos/soon.png">
 </div>
 
 <button class="carousel-btn right" onclick="scrollGallery(200)">▶</button>
 </div>
-
 </section>
 
 <div class="modal" id="modal"></div>
+
+<section class="lesson-bottom" id="lesson-bottom">
+<h2 id="bottomTitle">Information</h2>
+<p id="topic"><b>Topic:</b> Менің атым Қожа</p>
+<p id="planText">Flashmob, film, presentation.</p>
+</section>
+
+<footer id="footer">© 2026 School</footer>
 
 <script>
 
 const container=document.querySelector(".carousel-container");
 const modal=document.getElementById("modal");
 
+const title=document.getElementById("title");
+const topTitle=document.getElementById("topTitle");
+const galleryTitle=document.getElementById("galleryTitle");
+const bottomTitle=document.getElementById("bottomTitle");
+const desc=document.getElementById("desc");
+const topic=document.getElementById("topic");
+const planText=document.getElementById("planText");
+const footer=document.getElementById("footer");
+
 function scrollGallery(x){
 container.scrollBy({left:x,behavior:"smooth"});
 }
 
-function openModal(el){
-modal.innerHTML="";
-modal.appendChild(el.cloneNode(true));
-modal.classList.add("active");
-}
-
 document.querySelectorAll(".carousel-track img,.carousel-track video").forEach(i=>{
-i.onclick=()=>openModal(i);
+i.onclick=()=>{modal.innerHTML="";modal.appendChild(i.cloneNode(true));modal.classList.add("active");}
 });
 
-modal.onclick=()=>{
-modal.classList.remove("active");
-modal.innerHTML="";
-}
+modal.onclick=()=>modal.classList.remove("active");
 
 let ru=false;
 function switchLang(){
 if(!ru){
 title.innerText="Меня зовут Кожа";
+topTitle.innerText="Информация об уроке";
+galleryTitle.innerText="Галерея";
+desc.innerText="Урок по произведению Менің атым Қожа";
+topic.innerHTML="<b>Тема:</b> Менің атым Қожа";
+planText.innerText="Флешмоб, фильм, презентация.";
+footer.innerText="© 2026 Школа";
 ru=true;
 }else{
 title.innerText="Менің атым Қожа";
+topTitle.innerText="Information of lesson";
+galleryTitle.innerText="Gallery";
+desc.innerText="Lesson about Менің атым Қожа";
+topic.innerHTML="<b>Topic:</b> Менің атым Қожа";
+planText.innerText="Flashmob, film, presentation.";
+footer.innerText="© 2026 School";
 ru=false;
 }
 }
