@@ -374,12 +374,7 @@ footer{
 const container = document.querySelector(".carousel-container");
 const modal = document.getElementById("modal");
 
-// ===== SCROLL GALLERY =====
-function scrollGallery(x){
-  container.scrollBy({left:x, behavior:"smooth"});
-}
-
-// ===== OPEN MODAL FOR ANY IMAGE OR VIDEO =====
+// ===== OPEN MODAL =====
 function openModal(element){
   modal.innerHTML = "";
   const clone = element.cloneNode(true);
@@ -389,17 +384,16 @@ function openModal(element){
   modal.classList.add("active");
 }
 
-// ===== CAROUSEL CLICK =====
+// CLICK EVENTS
 document.querySelectorAll(".carousel-track img, .carousel-track video").forEach(item=>{
   item.addEventListener("click", ()=>openModal(item));
 });
 
-// ===== PARTICIPANTS CLICK =====
 document.querySelectorAll(".participant img").forEach(item=>{
   item.addEventListener("click", ()=>openModal(item));
 });
 
-// ===== CLOSE MODAL =====
+// CLOSE MODAL
 modal.addEventListener("click", ()=>{
   modal.classList.remove("active");
   modal.innerHTML = "";
@@ -407,6 +401,41 @@ modal.addEventListener("click", ()=>{
 
 // ===== LANGUAGE SWITCH =====
 let ru = false;
+
 function switchLang(){
+
   if(!ru){
-    title.inn
+    // ENGLISH
+    document.getElementById("title").innerText = "My Name is Kozha";
+    document.getElementById("topTitle").innerText = "Lesson Information";
+    document.getElementById("galleryTitle").innerText = "Lesson Gallery";
+    document.getElementById("bottomTitle").innerText = "Information";
+    document.getElementById("topic").innerHTML = "<b>Topic:</b> My Name is Kozha";
+    document.getElementById("desc").innerText = "The lesson was conducted to show the story 'My Name is Kozha' in modern times.";
+    document.getElementById("planText").innerText = "We showed a flash mob, an excerpt from our film, a presentation, conducted a lesson and asked questions.";
+    document.querySelector(".participants-gallery h2").innerText = "Film Participants";
+    document.querySelector(".book-info h2").innerText = "My Name is Kozha";
+    document.querySelector(".author-info h2").innerText = "Gabit Musrepov";
+    document.getElementById("footer").innerText = "© 2026 School Project";
+
+    ru = true;
+
+  } else {
+
+    // RUSSIAN
+    document.getElementById("title").innerText = "Менің атым Қожа";
+    document.getElementById("topTitle").innerText = "Информация об уроке";
+    document.getElementById("galleryTitle").innerText = "Галерея урока";
+    document.getElementById("bottomTitle").innerText = "Информация";
+    document.getElementById("topic").innerHTML = "<b>Тема:</b> Менің атым Қожа";
+    document.getElementById("desc").innerText = "Урок был проведён с целью показать произведение 'Менің атым Қожа' в современном времени.";
+    document.getElementById("planText").innerText = "Мы показали флешмоб, отрывок из фильма, презентацию, провели урок и задали вопросы.";
+    document.querySelector(".participants-gallery h2").innerText = "Участники фильма";
+    document.querySelector(".book-info h2").innerText = "Менің Атым Қожа";
+    document.querySelector(".author-info h2").innerText = "Габит Мусрепов";
+    document.getElementById("footer").innerText = "© 2026 Школьный проект";
+
+    ru = false;
+  }
+}
+</script>
